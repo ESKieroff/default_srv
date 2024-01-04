@@ -1,0 +1,50 @@
+enum UserType {
+  ERP
+  PUBLIC
+  API
+  SYSTEM
+  ANONYMOUS
+  ROOT
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum Country {
+  BRAZIL
+  UNITED_STATES
+  GERMANY
+  JAPAN
+}
+
+model User {
+  userId             Int       @id @default(autoincrement())
+  username           String    @unique
+  email              String    @unique
+  password           String
+  firstname          String?
+  lastname           String?
+  photo              Bytes?
+  biography          String?
+  tittle             String?
+  description        String?
+  birth              DateTime?
+  phone              String?
+  profileDescription String?
+  profileStatus      String?
+  socialNetwork      Json?     @db.Json
+  interests          Json?     @db.Json
+  preferences        Json?     @db.Json
+  configurations     Json?     @db.Json
+  country            Country?
+  gender             Gender?
+  userType           UserType  @default(PUBLIC)
+  active             Boolean   @default(true)
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  @@map("users")
+}
