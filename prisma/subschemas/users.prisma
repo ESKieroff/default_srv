@@ -1,3 +1,5 @@
+import { Item } from 'application';
+
 enum UserType {
   ERP
   PUBLIC
@@ -6,7 +8,6 @@ enum UserType {
   ANONYMOUS
   ROOT
 }
-
 enum Gender {
   MALE
   FEMALE
@@ -21,30 +22,31 @@ enum Country {
 }
 
 model User {
-  userId             Int       @id @default(autoincrement())
-  username           String    @unique
-  email              String    @unique
-  password           String
-  firstname          String?
-  lastname           String?
+  userid             Int       @id @default(autoincrement())
+  username           String    @unique @db.VarChar(255)
+  email              String    @unique @db.VarChar(255)
+  password           String    @db.VarChar(255)
+  firstname          String?   @db.VarChar(255)
+  lastname           String?   @db.VarChar(255)
   photo              Bytes?
   biography          String?
-  tittle             String?
+  tittle             String?   @db.VarChar(255)
   description        String?
-  birth              DateTime?
-  phone              String?
-  profileDescription String?
-  profileStatus      String?
-  socialNetwork      Json?     @db.Json
-  interests          Json?     @db.Json
-  preferences        Json?     @db.Json
-  configurations     Json?     @db.Json
+  birth              DateTime? @db.Timestamp(6)
+  phone              String?   @db.VarChar(255)
+  profiledescription String?
+  profilestatus      String?   @db.VarChar(255)
+  socialnetwork      Json?
+  interests          Json?
+  preferences        Json?
+  configurations     Json?
   country            Country?
   gender             Gender?
-  userType           UserType  @default(PUBLIC)
+  usertype           UserType  @default(PUBLIC)
   active             Boolean   @default(true)
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt
+  createdat          DateTime  @default(now()) @db.Timestamp(6)
+  updatedat          DateTime  @default(now()) @db.Timestamp(6)
+  items              Item[]
 
   @@map("users")
 }

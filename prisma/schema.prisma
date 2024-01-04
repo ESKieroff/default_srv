@@ -1,4 +1,5 @@
-//🧩Don't Edit this file.✨Generated in Wed Jan 03 2024 00:34:55 GMT-0300 (GMT-03:00)✨
+//🧩Don't Edit this file.✨Generated in Thu Jan 04 2024 20:44:43 GMT-0300 (GMT-03:00)✨
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,6 +11,54 @@ generator erd {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Item {
+  itemid      Int           @id @default(autoincrement())
+  title       String        @db.VarChar(255)
+  description String?
+  model       area
+  range_min   Float?
+  range_max   Float?
+  target      Float?
+  fk_userid   Int
+  createdat   DateTime      @default(now()) @db.Timestamp(6)
+  updatedat   DateTime      @default(now()) @db.Timestamp(6)
+  users       User          @relation(fields: [fk_userid], references: [userid], onDelete: NoAction, onUpdate: NoAction)
+  Mensuration Mensuration[]
+  tags        Tag[]
+
+  @@map("items")
+}
+
+model Mensuration {
+  mensurationid Int      @id @default(autoincrement())
+  fk_itemid     Int?
+  thisvalue     Float
+  createdat     DateTime @default(now()) @db.Timestamp(6)
+  updatedat     DateTime @default(now()) @db.Timestamp(6)
+  Item          Item?    @relation(fields: [fk_itemid], references: [itemid], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("mensurations")
+}
+
+model Tag {
+  tagid      Int      @id @default(autoincrement())
+  title      String   @db.VarChar(255)
+  itemitemid Int?
+  createdat  DateTime @default(now()) @db.Timestamp(6)
+  updatedat  DateTime @default(now()) @db.Timestamp(6)
+  Item       Item?    @relation(fields: [itemitemid], references: [itemid], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("tags")
+}
+
+enum area {
+  HARDSKILL
+  SOFTSKILL
+  HEALTH
+  VIRTUE
+  OTHER
 }
 
 enum UserType {
@@ -35,30 +84,31 @@ enum Country {
 }
 
 model User {
-  userId             Int       @id @default(autoincrement())
-  username           String    @unique
-  email              String    @unique
-  password           String
-  firstname          String?
-  lastname           String?
+  userid             Int       @id @default(autoincrement())
+  username           String    @unique @db.VarChar(255)
+  email              String    @unique @db.VarChar(255)
+  password           String    @db.VarChar(255)
+  firstname          String?   @db.VarChar(255)
+  lastname           String?   @db.VarChar(255)
   photo              Bytes?
   biography          String?
-  tittle             String?
+  tittle             String?   @db.VarChar(255)
   description        String?
-  birth              DateTime?
-  phone              String?
-  profileDescription String?
-  profileStatus      String?
-  socialNetwork      Json?     @db.Json
-  interests          Json?     @db.Json
-  preferences        Json?     @db.Json
-  configurations     Json?     @db.Json
+  birth              DateTime? @db.Timestamp(6)
+  phone              String?   @db.VarChar(255)
+  profiledescription String?
+  profilestatus      String?   @db.VarChar(255)
+  socialnetwork      Json?
+  interests          Json?
+  preferences        Json?
+  configurations     Json?
   country            Country?
   gender             Gender?
-  userType           UserType  @default(PUBLIC)
+  usertype           UserType  @default(PUBLIC)
   active             Boolean   @default(true)
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt
+  createdat          DateTime  @default(now()) @db.Timestamp(6)
+  updatedat          DateTime  @default(now()) @db.Timestamp(6)
+  items              Item[]
 
   @@map("users")
 }
