@@ -53,3 +53,7 @@ $ docker compose up -D
 ## commits pattern
 
 <https://medium.com/linkapi-solutions/conventional-commits-pattern-3778d1a1e657>
+
+## Problem Details for HTTP APIs
+
+<https://datatracker.ietf.org/doc/html/rfc7807>
