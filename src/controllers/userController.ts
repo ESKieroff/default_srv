@@ -2,6 +2,8 @@ import { ReasonPhrases, StatusCodes, getReasonPhrase, getStatusCode, } from 'htt
 import { userData } from '../validations/userValidation';
 import * as userService from "../services/userService";
 import { Request, Response } from "express";
+import { errorMessages, successMessages } from "../messages/messages";
+
 
 export const createUser = async (userData: any) => {
 
@@ -29,8 +31,17 @@ export const listAllUsers = async (req: Request, res: Response) => {
   }
 };
 
-export const removeUser = async (userData: any) => {
+export const removeUser = async (req: Request, res: Response) => {
 
+  try {
+    const userId = parseInt(req.params.id);
+    const result = await userService.removeUser(userId);
+
+    res.json({ message: "User removed successfully", result });
+
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 };
 
 export const getUserById = async (userData: any) => {

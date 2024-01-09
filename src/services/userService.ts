@@ -15,11 +15,17 @@ export const listAllUsers = async (queryParams: any) => {
     throw new Error(errorMessages.USERS_NOT_FOUND);
   }
   return result;
-  // return needs to be a DTO format for specific presentation of results.
+  // return needs to be a DTO for specific format presentation of results.
 };
 
-export const removeUser = async (userData: any) => {
+export const removeUser = async (userId: number) => {
 
+  const existingUser = await userRepository.getUserById(userId);
+
+  if (!existingUser) {
+    throw new Error(errorMessages.USER_NOT_FOUND);
+  }
+  return await userRepository.removeUser(userId);
 };
 
 export const getUserById = async (userData: any) => {
