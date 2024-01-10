@@ -1,5 +1,7 @@
-import { User } from "@prisma/client";
+import { User, Gender, UserType } from "@prisma/client";
 
-export interface UserInterface extends User {
+export type UserInterface = User & {
 
-}
+};
+
+export type UsersQueryParams = Pick<UserInterface, 'usertype' | 'gender' | 'createdat' | 'updatedat'>;

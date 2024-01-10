@@ -34,9 +34,9 @@ values (1,
 }',
 'BRAZIL',
 'MALE',
-'PUBLIC',
+'SYSTEM',
 TRUE,
-'2023-12-22',
+'2020-12-22',
 NOW()
 ),
 (2,
@@ -75,7 +75,7 @@ NOW()
 'MALE',
 'PUBLIC',
 TRUE,
-'2023-12-22',
+'2021-12-22',
 NOW()
 ),
 (3,
@@ -112,7 +112,7 @@ NOW()
 }',
 'BRAZIL',
 'FEMALE',
-'PUBLIC',
+'API',
 TRUE,
 '2023-12-22',
 NOW()
@@ -151,9 +151,9 @@ NOW()
 }',
 'BRAZIL',
 'FEMALE',
-'PUBLIC',
+'ROOT',
 TRUE,
-'2023-12-22',
+'2024-12-22',
 NOW()
 );
 

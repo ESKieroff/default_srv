@@ -109,7 +109,7 @@ export const listAllUsers = async (queryParams: any) => {
     userWhereInput.gender = queryParams.gender;
   }
 
-  if (queryParams.createdAt) {
+  if (queryParams.createdat) {
     userWhereInput.createdat = {
       gte: new Date(queryParams.createdat),
     };

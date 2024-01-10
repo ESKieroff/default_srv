@@ -9,6 +9,7 @@ export const updateUser = async (userData: any) => {
 
 };
 
+
 export const listAllUsers = async (queryParams: any) => {
   const result = await userRepository.listAllUsers(queryParams);
   if (result.length === 0) {

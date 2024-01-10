@@ -54,4 +54,3 @@ export const userData = z.object({
   createdat: z.date(),
   updatedat: z.date(),
 });
-

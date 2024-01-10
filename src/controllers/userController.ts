@@ -3,29 +3,29 @@ import { userData } from '../validations/userValidation';
 import * as userService from "../services/userService";
 import { Request, Response } from "express";
 import { errorMessages, successMessages } from "../messages/messages";
+import { UserInterface } from '../interfaces/userInterface';
+import { UsersQueryParams } from '../interfaces/userInterface';
+import { Gender, UserType } from '@prisma/client';
 
 
-export const createUser = async (userData: any) => {
-
-};
-
-export const updateUser = async (userData: any) => {
-
-};
 
 export const listAllUsers = async (req: Request, res: Response) => {
 
   try {
-    const {
-      userid, usertype, gender, createdat, updatedat
-    } = req.query as Record<string, any>;
+    const queryParamsRaw = userData.parse(req.query);
+    const queryParams: UsersQueryParams = {
+      ...queryParamsRaw,
+      usertype: queryParamsRaw.usertype as UserType,
+      gender: queryParamsRaw.gender as Gender,
+      createdat: queryParamsRaw.createdat ? new Date(queryParamsRaw.createdat) : undefined,
+      updatedat: queryParamsRaw.updatedat ? new Date(queryParamsRaw.updatedat) : undefined,
+    };
 
-    const result = await userService.listAllUsers({
-      userid, usertype, gender, createdat, updatedat
-    });
+    if (queryParams) {
 
-    res.json(result);
-
+      const result = await userService.listAllUsers(queryParams);
+      res.json(result);
+    }
   } catch (error: any) {
     res.status(400).json({ error: error.message });
   }
@@ -55,3 +55,11 @@ export const getUserByEmail = async (userData: any) => {
 export const getUserNamebyEmail = async (userData: any) => {
 
 }
+
+export const createUser = async (userData: any) => {
+
+};
+
+export const updateUser = async (userData: any) => {
+
+};
