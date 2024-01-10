@@ -1,5 +1,5 @@
 import { ReasonPhrases, StatusCodes, getReasonPhrase, getStatusCode, } from 'http-status-codes';
-import { userData } from '../validations/userValidation';
+import { userData, userQueryParamsSchema } from '../validations/userValidation';
 import * as userService from "../services/userService";
 import { Request, Response } from "express";
 import { errorMessages, successMessages } from "../messages/messages";
@@ -8,11 +8,25 @@ import { UsersQueryParams } from '../interfaces/userInterface';
 import { Gender, UserType } from '@prisma/client';
 
 
-
 export const listAllUsers = async (req: Request, res: Response) => {
 
   try {
-    const queryParamsRaw = userData.parse(req.query);
+
+    const queryParams = req.query;
+
+    const result = await userService.listAllUsers(queryParams);
+    res.json(result);
+
+  } catch (error: any) {
+    res.status(400).json({ error: error.message });
+  }
+};
+/*
+export const listAllUsers = async (req: Request, res: Response) => {
+
+  try {
+    const queryParamsRaw = userQueryParamsSchema.parse(req.query);
+
     const queryParams: UsersQueryParams = {
       ...queryParamsRaw,
       usertype: queryParamsRaw.usertype as UserType,
@@ -21,15 +35,14 @@ export const listAllUsers = async (req: Request, res: Response) => {
       updatedat: queryParamsRaw.updatedat ? new Date(queryParamsRaw.updatedat) : undefined,
     };
 
-    if (queryParams) {
+    const result = await userService.listAllUsers(queryParams);
+    res.json(result);
 
-      const result = await userService.listAllUsers(queryParams);
-      res.json(result);
-    }
   } catch (error: any) {
     res.status(400).json({ error: error.message });
   }
 };
+*/
 
 export const removeUser = async (req: Request, res: Response) => {
 

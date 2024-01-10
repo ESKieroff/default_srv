@@ -1,3 +1,4 @@
+import { UsersQueryParams } from "../interfaces/userInterface";
 import { errorMessages, successMessages } from "../messages/messages";
 import * as userRepository from "../repositories/userRepository";
 
@@ -11,6 +12,7 @@ export const updateUser = async (userData: any) => {
 
 
 export const listAllUsers = async (queryParams: any) => {
+
   const result = await userRepository.listAllUsers(queryParams);
   if (result.length === 0) {
     throw new Error(errorMessages.USERS_NOT_FOUND);

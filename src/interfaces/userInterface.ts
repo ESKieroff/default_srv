@@ -1,4 +1,4 @@
-import { User, Gender, UserType } from "@prisma/client";
+import { User } from "@prisma/client";
 
 export type UserInterface = User & {
 

@@ -1,5 +1,6 @@
-import { Prisma, PrismaClient } from "@prisma/client";
-import { UserInterface } from "../interfaces/userInterface";
+import { Gender, Prisma, PrismaClient, UserType } from "@prisma/client";
+import { UserInterface, UsersQueryParams } from "../interfaces/userInterface";
+
 
 const prisma = new PrismaClient();
 const actualDate = new Date();
@@ -96,33 +97,34 @@ export const updateUser = async (userData: Partial<UserInterface>) => {
   });
 };
 
-export const listAllUsers = async (queryParams: any) => {
-  const userWhereInput: Prisma.UserWhereInput = {
-    active: true
+export const listAllUsers = async (queryParams?: any) => {
+
+  const query: Prisma.UserWhereInput = {
+    active: true,
   };
 
   if (queryParams.usertype) {
-    userWhereInput.usertype = queryParams.usertype;
+    query.usertype = queryParams.usertype;
   }
 
   if (queryParams.gender) {
-    userWhereInput.gender = queryParams.gender;
+    query.gender = queryParams.gender;
   }
 
   if (queryParams.createdat) {
-    userWhereInput.createdat = {
+    query.createdat = {
       gte: new Date(queryParams.createdat),
     };
   }
 
   if (queryParams.updatedat) {
-    userWhereInput.updatedat = {
+    query.updatedat = {
       gte: new Date(queryParams.updatedat),
     };
   }
 
   return prisma.user.findMany({
-    where: userWhereInput,
+    where: query,
     orderBy: {
       userid: 'asc'
     },
